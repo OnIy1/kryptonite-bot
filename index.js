@@ -24,8 +24,8 @@ client.adminCommands = new Collection();
 
 // Initialize Supabase client
 const supabase = createClient(
-  process.env.SUPABASE_URL || config.supabaseUrl,
-  process.env.SUPABASE_SERVICE_KEY || config.supabaseKey
+  process.env.SUPABASE_URL,
+  process.env.SUPABASE_SERVICE_KEY
 );
 
 // Attach Supabase to client and global for easy access
@@ -300,9 +300,8 @@ process.on('uncaughtException', async (error) => {
 // Initialize bot and login to Discord
 initializeBot()
   .then(() => {
-    // Login to Discord with token from env or config
-    const token = process.env.TOKEN || config.token;
-    client.login(token);
+    // Login to Discord with token from env 
+    client.login(process.env.TOKEN);
   })
   .catch(error => {
     console.error('❌ Fatal error during bot initialization:', error);
