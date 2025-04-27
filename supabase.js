@@ -4,8 +4,8 @@ require('dotenv').config();
 
 // Initialize Supabase client
 const supabase = createClient(
-  process.env.SUPABASE_URL || require('./config.json').supabaseUrl,
-  process.env.SUPABASE_SERVICE_KEY || require('./config.json').supabaseKey
+  process.env.SUPABASE_URL,
+  process.env.SUPABASE_SERVICE_KEY
 );
 
 // Database operations
