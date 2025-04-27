@@ -1,0 +1,16 @@
+{
+  "name": "kryptonite-bot",
+  "version": "1.0.0",
+  "description": "Professional Discord bot with coins system and admin features",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js"
+  },
+  "dependencies": {
+    "@supabase/supabase-js": "^2.49.4",
+    "discord.js": "^14.19.1",
+    "dotenv": "^16.5.0"
+  },
+  "author": "",
+  "license": "ISC"
+}

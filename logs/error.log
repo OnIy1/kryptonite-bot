@@ -1,0 +1,40 @@
+[2025-04-26T18:48:46.011Z] ERROR: Unhandled promise rejection
+Error: Received one or more errors
+    at _UnionValidator.handle (C:\Users\MX774B\Desktop\kryptonite-bot\node_modules\@sapphire\shapeshift\dist\cjs\index.cjs:1965:23)
+    at _UnionValidator.parse (C:\Users\MX774B\Desktop\kryptonite-bot\node_modules\@sapphire\shapeshift\dist\cjs\index.cjs:972:90)
+    at EmbedBuilder.setDescription (C:\Users\MX774B\Desktop\kryptonite-bot\node_modules\@discordjs\builders\dist\index.js:325:26)
+    at Object.createEmbed (C:\Users\MX774B\Desktop\kryptonite-bot\handlers\embedBuilder.js:9:8)
+    at Object.execute (C:\Users\MX774B\Desktop\kryptonite-bot\commands\profile.js:25:36)
+    at Client.<anonymous> (C:\Users\MX774B\Desktop\kryptonite-bot\index.js:171:17)
+    at Client.emit (node:events:518:28)
+    at MessageCreateAction.handle (C:\Users\MX774B\Desktop\kryptonite-bot\node_modules\discord.js\src\client\actions\MessageCreate.js:32:14)
+    at module.exports [as MESSAGE_CREATE] (C:\Users\MX774B\Desktop\kryptonite-bot\node_modules\discord.js\src\client\websocket\handlers\MESSAGE_CREATE.js:4:32)
+    at WebSocketManager.handlePacket (C:\Users\MX774B\Desktop\kryptonite-bot\node_modules\discord.js\src\client\websocket\WebSocketManager.js:348:31)
+Additional Info: {"promise":"[object Promise]"}
+
+[2025-04-26T22:28:49.676Z] ERROR: Unhandled promise rejection
+Error: Received one or more errors
+    at _UnionValidator.handle (C:\Users\MX774B\Desktop\kryptonite-bot\node_modules\@sapphire\shapeshift\dist\cjs\index.cjs:1965:23)
+    at _UnionValidator.parse (C:\Users\MX774B\Desktop\kryptonite-bot\node_modules\@sapphire\shapeshift\dist\cjs\index.cjs:972:90)
+    at EmbedBuilder.setDescription (C:\Users\MX774B\Desktop\kryptonite-bot\node_modules\@discordjs\builders\dist\index.js:325:26)
+    at Object.createEmbed (C:\Users\MX774B\Desktop\kryptonite-bot\handlers\embedBuilder.js:9:8)
+    at Object.execute (C:\Users\MX774B\Desktop\kryptonite-bot\commands\profile.js:25:36)
+    at Client.<anonymous> (C:\Users\MX774B\Desktop\kryptonite-bot\index.js:171:17)
+    at Client.emit (node:events:518:28)
+    at MessageCreateAction.handle (C:\Users\MX774B\Desktop\kryptonite-bot\node_modules\discord.js\src\client\actions\MessageCreate.js:32:14)
+    at module.exports [as MESSAGE_CREATE] (C:\Users\MX774B\Desktop\kryptonite-bot\node_modules\discord.js\src\client\websocket\handlers\MESSAGE_CREATE.js:4:32)
+    at WebSocketManager.handlePacket (C:\Users\MX774B\Desktop\kryptonite-bot\node_modules\discord.js\src\client\websocket\WebSocketManager.js:348:31)
+Additional Info: {"promise":"[object Promise]"}
+
+[2025-04-27T00:04:53.021Z] ERROR: Discord client error
+TypeError: client.db.isTrusted is not a function
+    at Client.<anonymous> (C:\Users\MX774B\Desktop\kryptonite-bot\index.js:136:37)
+    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+Additional Info: {"source":"Discord.js Client"}
+
+[2025-04-27T00:05:05.614Z] ERROR: Discord client error
+TypeError: client.db.isTrusted is not a function
+    at Client.<anonymous> (C:\Users\MX774B\Desktop\kryptonite-bot\index.js:136:37)
+    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+Additional Info: {"source":"Discord.js Client"}
+

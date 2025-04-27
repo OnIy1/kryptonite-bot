@@ -1,0 +1,17 @@
+{
+  "token": "MTM2NTQyNjMzMDA5MDYwMjYxOA.GjiOZK.4N6n_gmE_jiGEP_Qh_wAW_x4Xd0TJv6ZRqYK9c",
+  "prefix": "!",
+  "ownerId": "1126169695872098414",
+  "embedColor": "#1FB1B6",
+  "dailyReward": 50,
+  "messageReward": 1,
+  "messageRewardCooldown": 60,
+  "coinsPerMessages": 10,
+  "messageCooldown": 60,
+  "autoSaveInterval": 300,
+  "premiumRoleId": "1365839642234060932",
+  "logChannel": "kryptonite-logs",
+  "supabaseUrl": "https://fgqjkzhqwwwdgoqwxpgm.supabase.co",
+  "supabaseKey": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZncWpremhxd3d3ZGdvcXd4cGdtIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDU2OTgwMTMsImV4cCI6MjA2MTI3NDAxM30.XxTRRsDy0zvgtXYPChm-1pFUa-zl5e1Y7UvKHstigKc",
+  "supabaseAnonKey": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZncWpremhxd3d3ZGdvcXd4cGdtIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDU2OTgwMTMsImV4cCI6MjA2MTI3NDAxM30.XxTRRsDy0zvgtXYPChm-1pFUa-zl5e1Y7UvKHstigKc"
+}
