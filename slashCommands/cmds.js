@@ -11,9 +11,9 @@ module.exports = {
       .setTitle('Krypton Bot Commands')
       .setDescription('Below are some helpful commands:')
       .addFields(
-        { name: `${config.prefix}help`, value: 'Shows all available commands', inline: true },
-        { name: `${config.prefix}profile`, value: 'Displays your user profile', inline: true },
-        { name: `${config.prefix}coins`, value: 'Check your coin balance', inline: true }
+        { name: '/profile', value: 'Display your user profile', inline: true },
+        { name: '/coins', value: 'Check your coin balance', inline: true },
+        { name: '/shop', value: 'View items available for purchase', inline: true }
       )
       .setFooter({ text: 'Krypton Executor' })
       .setTimestamp();
