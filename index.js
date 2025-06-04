@@ -54,6 +54,7 @@ client.boostSystem = {
 const commandHandler = require('./handlers/commandHandler');
 const messageHandler = require('./handlers/messageHandler');
 const cooldownHandler = require('./handlers/cooldownHandler');
+const interactionHandler = require('./handlers/interactionHandler');
 const databaseInit = require('./handlers/databaseInit');
 const logger = require('./handlers/errorLogger');
 
@@ -70,6 +71,7 @@ async function initializeBot() {
   // Then load commands
   commandHandler.init(client);
   messageHandler.init(client);
+  interactionHandler.init(client);
   
   console.log('✅ Bot initialization completed!');
 }
@@ -77,6 +79,7 @@ async function initializeBot() {
 // Login event
 client.once('ready', async () => {
   console.log(`✅ ${client.user.tag} is online!`);
+  await interactionHandler.register(client);
   
   // Set custom status with rotation
   const statusMessages = [
@@ -230,6 +233,11 @@ client.on('messageCreate', async message => {
   
   // Process message for coins
   messageHandler.processMessage(client, message);
+});
+
+// Handle slash commands and button interactions
+client.on('interactionCreate', async interaction => {
+  await interactionHandler.handle(interaction, client);
 });
 
 // Error handling
