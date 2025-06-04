@@ -8,6 +8,10 @@ const supabase = createClient(
   process.env.SUPABASE_SERVICE_KEY
 );
 
+function isTransientSupabaseError(err) {
+  return err && (err.status === 520 || /520/.test(err.message));
+}
+
 // Database operations
 const db = {
   // User management
@@ -18,7 +22,12 @@ const db = {
         .select('*')
         .eq('discord_id', discordId)
         .single();
-        
+
+      if (isTransientSupabaseError(error)) {
+        console.warn('⚠️ Supabase returned status 520 in getUser');
+        return { data: null, error: null };
+      }
+
       return { data, error };
     } catch (err) {
       console.error('Error in getUser:', err);
@@ -42,7 +51,12 @@ const db = {
         }])
         .select()
         .single();
-        
+
+      if (isTransientSupabaseError(error)) {
+        console.warn('⚠️ Supabase returned status 520 in createUser');
+        return { data: null, error: null };
+      }
+
       return { data, error };
     } catch (err) {
       console.error('Error in createUser:', err);
@@ -96,7 +110,12 @@ const db = {
         .update({ coins: newBalance })
         .eq('discord_id', discordId)
         .select();
-        
+
+      if (isTransientSupabaseError(error)) {
+        console.warn('⚠️ Supabase returned status 520 in updateCoins');
+        return { data: null, error: null };
+      }
+
       return { data, error, newBalance };
     } catch (err) {
       console.error('Error in updateCoins:', err);
@@ -114,7 +133,12 @@ const db = {
         .update({ coins: amount })
         .eq('discord_id', discordId)
         .select();
-        
+
+      if (isTransientSupabaseError(error)) {
+        console.warn('⚠️ Supabase returned status 520 in setCoins');
+        return { data: null, error: null };
+      }
+
       return { data, error };
     } catch (err) {
       console.error('Error in setCoins:', err);
@@ -130,7 +154,12 @@ const db = {
         .select('*')
         .eq('discord_id', userId)
         .single();
-      
+
+      if (isTransientSupabaseError(error)) {
+        console.warn('⚠️ Supabase returned status 520 in isTrusted');
+        return false;
+      }
+
       if (error && error.code !== 'PGRST116') {
         console.error('Error checking trust status:', error);
         return false;
@@ -157,7 +186,12 @@ const db = {
         .update({ key: key })
         .eq('discord_id', discordId)
         .select();
-        
+
+      if (isTransientSupabaseError(error)) {
+        console.warn('⚠️ Supabase returned status 520 in generateKey');
+        return { data: null, error: null };
+      }
+
       return { data, error, key };
     } catch (err) {
       console.error('Error in generateKey:', err);
@@ -172,7 +206,12 @@ const db = {
         .select('*')
         .eq('key', key)
         .single();
-        
+
+      if (isTransientSupabaseError(error)) {
+        console.warn('⚠️ Supabase returned status 520 in validateKey');
+        return { valid: false };
+      }
+
       if (error || !data) return { valid: false };
       if (data.is_banned) return { valid: false, reason: 'banned' };
       
@@ -213,11 +252,16 @@ const db = {
       
       const { data, error, newBalance } = await this.updateCoins(discordId, coinsToAdd);
       if (error) return { error };
-      
-      await supabase
+
+      const { error: updateError } = await supabase
         .from('users')
         .update({ last_daily: now.toISOString() })
         .eq('discord_id', discordId);
+
+      if (isTransientSupabaseError(updateError)) {
+        console.warn('⚠️ Supabase returned status 520 in claimDaily');
+        return { success: true, coins: coinsToAdd, newBalance: newBalance || user.coins + coinsToAdd };
+      }
         
       return { 
         success: true, 
@@ -235,12 +279,17 @@ const db = {
     try {
       const { data, error } = await supabase
         .from('users')
-        .update({ 
+        .update({
           is_banned: true,
           ban_reason: reason
         })
         .eq('discord_id', discordId)
         .select();
+
+      if (isTransientSupabaseError(error)) {
+        console.warn('⚠️ Supabase returned status 520 in banUser');
+        return { data: null, error: null };
+      }
         
       // Log the ban
       await this.logAction('ban', discordId, { reason });
@@ -256,12 +305,17 @@ const db = {
     try {
       const { data, error } = await supabase
         .from('users')
-        .update({ 
+        .update({
           is_banned: false,
           ban_reason: null
         })
         .eq('discord_id', discordId)
         .select();
+
+      if (isTransientSupabaseError(error)) {
+        console.warn('⚠️ Supabase returned status 520 in unbanUser');
+        return { data: null, error: null };
+      }
         
       // Log the unban
       await this.logAction('unban', discordId);
@@ -284,7 +338,12 @@ const db = {
           details,
           created_at: new Date().toISOString()
         }]);
-        
+
+      if (isTransientSupabaseError(error)) {
+        console.warn('⚠️ Supabase returned status 520 in logAction');
+        return { error: null };
+      }
+
       return { error };
     } catch (err) {
       console.error('Error in logAction:', err);
@@ -299,12 +358,22 @@ const db = {
       const { count: userCount, error: userError } = await supabase
         .from('users')
         .select('*', { count: 'exact', head: true });
+
+      if (isTransientSupabaseError(userError)) {
+        console.warn('⚠️ Supabase returned status 520 in getStats (users)');
+        return { data: null, error: null };
+      }
         
       // Get total coins in circulation
       const { data: coinsData, error: coinsError } = await supabase
         .from('users')
         .select('coins')
         .gt('coins', 0);
+
+      if (isTransientSupabaseError(coinsError)) {
+        console.warn('⚠️ Supabase returned status 520 in getStats (coins)');
+        return { data: null, error: null };
+      }
         
       const totalCoins = coinsData ? coinsData.reduce((sum, user) => sum + user.coins, 0) : 0;
       
@@ -316,6 +385,11 @@ const db = {
         .from('system_logs')
         .select('discord_id', { count: 'exact', head: true, distinct: true })
         .gt('created_at', sevenDaysAgo.toISOString());
+
+      if (isTransientSupabaseError(activeError)) {
+        console.warn('⚠️ Supabase returned status 520 in getStats (active users)');
+        return { data: null, error: null };
+      }
         
       return {
         total_users: userCount || 0,
@@ -341,7 +415,12 @@ const db = {
         .select('*')
         .order('coins', { ascending: false })
         .limit(limit);
-        
+
+      if (isTransientSupabaseError(error)) {
+        console.warn('⚠️ Supabase returned status 520 in getLeaderboard');
+        return { data: null, error: null };
+      }
+
       return { data, error };
     } catch (err) {
       console.error('Error in getLeaderboard:', err);
@@ -359,7 +438,12 @@ const db = {
         `)
         .order('created_at', { ascending: false })
         .limit(limit);
-        
+
+      if (isTransientSupabaseError(error)) {
+        console.warn('⚠️ Supabase returned status 520 in getRecentLogs');
+        return { data: null, error: null };
+      }
+
       return { data, error };
     } catch (err) {
       console.error('Error in getRecentLogs:', err);
@@ -368,4 +452,4 @@ const db = {
   }
 };
 
-module.exports = { supabase, db };
+module.exports = { supabase, db, isTransientSupabaseError };

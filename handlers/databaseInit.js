@@ -1,5 +1,6 @@
 // handlers/databaseInit.js
 const config = require('../config.json');
+const { isTransientSupabaseError } = require('../supabase');
 
 module.exports = async (client) => {
   try {
@@ -7,9 +8,12 @@ module.exports = async (client) => {
     
     // Test the connection
     const { data, error } = await client.supabase.from('users').select('*').limit(1);
-    
-    if (error) {
+
+    if (error && !isTransientSupabaseError(error)) {
       throw new Error(`Supabase connection failed: ${error.message}`);
+    }
+    if (isTransientSupabaseError(error)) {
+      console.warn('⚠️ Supabase returned status 520. Continuing in limited mode.');
     }
     
     console.log('✅ Connected to Supabase successfully.');
