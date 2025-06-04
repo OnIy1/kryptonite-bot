@@ -17,11 +17,11 @@ module.exports = {
         const startIdx = (pageNum - 1) * USERS_PER_PAGE;
         
         // Fetch leaderboard data from Supabase
-        const { data: totalCount } = await client.supabase
+        const { count } = await client.supabase
           .from('users')
           .select('*', { count: 'exact', head: true });
-          
-        const TOTAL_PAGES = Math.ceil(totalCount / USERS_PER_PAGE);
+
+        const TOTAL_PAGES = Math.ceil((count || 0) / USERS_PER_PAGE);
         
         // Get sorted users for the current page
         const { data: users, error } = await client.supabase
@@ -63,7 +63,7 @@ module.exports = {
           .addFields(
             {
               name: 'Page',
-              value: `${pageNum}/${TOTAL_PAGES || 1} (${totalCount || users.length} users total)`,
+              value: `${pageNum}/${TOTAL_PAGES || 1} (${count || users.length} users total)`,
               inline: true
             }
           )
